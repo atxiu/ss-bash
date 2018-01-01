@@ -1,5 +1,5 @@
 # ss-bash
-ss-bash auto only Centos 7
+ss-bash auto only Centos 7 and shadowsocks-libev
 ```
 chmod u+x ss-bash.sh
 ./ss-bash.sh
