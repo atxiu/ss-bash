@@ -1,6 +1,5 @@
 # ss-bash
-ss-bash auto
-Only Centos 7
+ss-bash auto only Centos 7
 ```
 chmod u+x ss-bash.sh
 ./ss-bash.sh
