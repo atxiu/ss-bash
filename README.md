@@ -1,6 +1,8 @@
 # ss-bash
 ss-bash auto only Centos 7 and shadowsocks-libev
 ```
+git clone https://github.com/atxiu/ss-bash.git
+cd ss-bash
 chmod u+x ss-bash.sh
 ./ss-bash.sh
 ss-bash.sh {start|stop|restart|status}
