@@ -2,6 +2,8 @@
   ss-bash auto install and manage .Only applies to CentOS 7 and Shadowsocks-libev
   
   ss-bash 自动安装和管理，仅适用于 CentOS 7 和 Shadowsocks-libev
+  
+  --最简练的语言写脚本
 ```
 git clone https://github.com/atxiu/ss-bash.git
 cd ss-bash
