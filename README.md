@@ -13,6 +13,7 @@ chmod u+x ss-bash.sh
 ./ss-bash.sh
 ss-bash.sh {start|stop|restart|status}
 ./ss-bash.sh start test 30
+./ss-bash.sh start 123
 ```
 ./ss-bash.sh start [name] [time]
 
