@@ -18,7 +18,7 @@ EOF
     systemctl start shadowsocks-libev-server@$1.service
     systemctl enable shadowsocks-libev-server@$1.service
     cat /etc/shadowsocks-libev/$1.json
-    ss=ss://$(python _base64.py -en chacha20-ietf-poly1305:$pw@$server:$port)
+    ss=ss://$(echo -n "chacha20-ietf-poly1305:$pw@$server:$port" | base64)
     echo $ss
     time=$(date -d '+1 month' "+%M %H %d %m")
 (
