@@ -20,13 +20,21 @@ EOF
     cat /etc/shadowsocks-libev/$1.json
     ss=ss://$(echo -n "chacha20-ietf-poly1305:$pw@$server:$port" | base64)
     echo $ss
-    time=$(date -d '+1 month' "+%M %H %d %m")
+    time=$(date -d "+$3 day" "+%M %H %d %m")
+    if test -f /var/spool/cron/root; then
+        echo "crontab initializationed"
+    else 
 (
 cat <<EOF
-0 0 0 0 0 echo "crontab ok"
+0 0 0 0 0 echo "crontab initialization"
 EOF
-)>/var/spool/cron/root
-    sed -i "1i $time * /bin/bash ~/ss-bash.sh stop $1" /var/spool/cron/root 
+)>/var/spool/cron/root;
+    fi
+    if [ ! -n "$2" ];then
+        echo "Unlimited"
+    else
+        sed -i "1i $time * /bin/bash ~/ss-bash.sh stop $1" /var/spool/cron/root
+    fi
 }
 stop()
 {
@@ -44,7 +52,7 @@ status()
 }
 case "$1" in
     start)
-      start $2
+      start $2 $3
       ;;
     stop)
       stop $2
