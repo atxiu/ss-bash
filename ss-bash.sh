@@ -20,7 +20,7 @@ EOF
     cat /etc/shadowsocks-libev/$1.json
     ss=ss://$(echo -n "chacha20-ietf-poly1305:$pw@$server:$port" | base64)
     echo $ss
-    time=$(date -d "+$3 day" "+%M %H %d %m")
+    time=$(date -d "+$2 day" "+%M %H %d %m")
     if test -f /var/spool/cron/root; then
         echo "crontab initializationed"
     else 
@@ -41,6 +41,7 @@ stop()
     systemctl stop shadowsocks-libev-server@$1.service
     systemctl disable shadowsocks-libev-server@$1.service
     rm -rf /etc/shadowsocks-libev/$1.json
+    sed -i "/$1/d" /var/spool/cron/root
 }
 restart()
 {
