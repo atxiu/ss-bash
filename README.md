@@ -6,10 +6,9 @@
   --用最简练的语言写脚本
   
 ```
-git clone https://github.com/atxiu/ss-bash.git
-cd ss-bash
-sh ./install.sh
-chmod u+x ss-bash.sh
+sh -c "$(curl -fsSL https://raw.githubusercontent.com/atxiu/ss-bash/master/install.sh)"
+chmod u+x "$(wget https://raw.githubusercontent.com/atxiu/ss-bash/master/ss-bash.sh)"
+
 ./ss-bash.sh
 ss-bash.sh {start|stop|restart|status}
 ./ss-bash.sh start test 30
