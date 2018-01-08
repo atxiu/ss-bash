@@ -7,7 +7,7 @@
   
 ```
 sh -c "$(curl -fsSL https://raw.githubusercontent.com/atxiu/ss-bash/master/install.sh)"
-sh -c "$(wget https://raw.githubusercontent.com/atxiu/ss-bash/master/ss-bash.sh -O -)"
+sh -c "$(wget https://raw.githubusercontent.com/atxiu/ss-bash/master/ss-bash.sh)"
 chmod u+x ss-bash.sh
 ./ss-bash.sh
 ss-bash.sh {start|stop|restart|status}
