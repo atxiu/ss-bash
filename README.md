@@ -6,8 +6,8 @@
   --用最简练的语言写脚本
   
 ```
-sh -c "$(curl -fsSL https://raw.githubusercontent.com/atxiu/ss-bash/master/install.sh)"
-sh -c "$(wget https://raw.githubusercontent.com/atxiu/ss-bash/master/ss-bash.sh)"
+sh -c "$(curl -fsSL https://raw.github.com/atxiu/ss-bash/master/install.sh)"
+sh -c "$(wget https://raw.github.com/atxiu/ss-bash/master/ss-bash.sh)"
 chmod u+x ss-bash.sh
 ./ss-bash.sh
 ss-bash.sh {start|stop|restart|status}
