@@ -7,6 +7,7 @@
   
 ```
 sh -c "$(curl -fsSL https://raw.github.com/atxiu/ss-bash/master/install.sh)"
+或
 sh -c "$(wget https://raw.github.com/atxiu/ss-bash/master/ss-bash.sh)"
 chmod u+x ss-bash.sh
 ./ss-bash.sh
