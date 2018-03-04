@@ -15,7 +15,7 @@ cat <<EOF
 "server_port":$port,
 "password":"$pw",
 "timeout":300,
-"method":"method"
+"method":"$method"
 }
 EOF
 )>/etc/shadowsocks-libev/$1.json
