@@ -1,27 +1,28 @@
 #!/bin/bash
-start()
+server=$(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:")
+method=chacha20-ietf-poly1305
+add()
 {
     port=$[63210+$(ls /etc/shadowsocks-libev/ -l |grep "^-"|wc -l)]
     pw=$(cat /dev/urandom | head -1 | md5sum | head -c 10)
-    server=$(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:")
     if test -f /etc/shadowsocks-libev/$1.json; then
-        echo "existed"
+        restart $1
     else
 (
 cat <<EOF
 {
-"server":"$server",
+"server":$server,
 "server_port":$port,
 "password":"$pw",
 "timeout":300,
-"method":"chacha20-ietf-poly1305"
+"method":"method"
 }
 EOF
 )>/etc/shadowsocks-libev/$1.json
     systemctl start shadowsocks-libev-server@$1.service
     systemctl enable shadowsocks-libev-server@$1.service
     cat /etc/shadowsocks-libev/$1.json
-    ss=ss://$(echo -n "chacha20-ietf-poly1305:$pw@$server:$port" | base64)
+    ss=ss://$(echo -n "method:$pw@$server:$port" | base64)
     echo $ss
     time=$(date -d "+$2 day" "+%M %H %d %m")
     if test -f /var/spool/cron/root; then
@@ -34,7 +35,7 @@ EOF
 )>/var/spool/cron/root;
     fi
     if [ ! -n "$2" ];then
-        echo "Unlimited"
+       echo "no time limit"
     else
         sed -i "1i $time * /bin/bash ~/ss-bash.sh stop $1" /var/spool/cron/root
     fi
@@ -49,11 +50,12 @@ stop()
     if test -f /etc/shadowsocks-libev/$1.json; then
     systemctl stop shadowsocks-libev-server@$1.service
     systemctl disable shadowsocks-libev-server@$1.service
-    port=$(sed -n '3p' /etc/shadowsocks-libev/$1.json | sed 's/\(.*\):\(.*\),\(.*\)/\2/g')
+    port=$(sed -n '3p' /etc/shadowsocks-libev/$1.json | sed 's/\(.*\):\(.*\),/\2/g')
+    #port=$(sed -n '3p' /etc/shadowsocks-libev/$1.json | sed 's/\(.*\):\(.*\),\(,*\)/\2/g')
     #$port=$(cat /etc/shadowsocks-libev/$1.json | awk '/.server_port.:.*/{print $1}' | sed 's/\(.*\):\(.*\),\(.*\)/\2/g')
     rm -rf /etc/shadowsocks-libev/$1.json
     sed -i "/$1/d" /var/spool/cron/root
-    server=$(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:")
+    #server=$(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:")
     iptables -D INPUT -d $server -p tcp --dport $port
     iptables -D OUTPUT -s $server -p tcp --sport $port
     iptables -D INPUT -d $server -p udp --dport $port
@@ -71,8 +73,8 @@ status()
     systemctl status shadowsocks-libev-server@$1.service
 }
 case "$1" in
-    start)
-      start $2 $3
+    add)
+      add $2 $3
       ;;
     stop)
       stop $2
@@ -84,5 +86,5 @@ case "$1" in
       status $2
       ;;
     *)
-      echo $"$0 {start|stop|restart|status}"
+      echo $"$0 {add|stop|restart|status}"
 esac
