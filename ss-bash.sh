@@ -1,6 +1,6 @@
 #!/bin/bash
 server=$(ifconfig -a|grep inet|grep -v 127.0.0.1|grep -v inet6|awk '{print $2}'|tr -d "addr:")
-method=chacha20-ietf-poly1305
+method=chacha20-ietf
 add()
 {
     port=$[63210+$(ls /etc/shadowsocks-libev/ -l |grep "^-"|wc -l)]
